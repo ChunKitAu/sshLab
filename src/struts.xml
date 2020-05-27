@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	
+	 <!-- 所有的常量配置，一般都有放在package元素前面，这种是最简单的方式 -->
+	<constant name="struts.devMode" value="true"/>
+
+
+	<package name="sshLab_user" namespace="/user" extends="json-default">
+		<interceptors>
+			<interceptor name="authInterceptor" class="com.ssh.interceptor.AuthInterceptor"/>
+		</interceptors>
+
+		<action name="save"  class="com.ssh.auth.action.UserAction" method="save">
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="login"  class="com.ssh.auth.action.UserAction" method="login">
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="delete"  class="com.ssh.auth.action.UserAction" method="deleteByUserId">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+
+
+		<action name="update"  class="com.ssh.auth.action.UserAction" method="update">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="get"  class="com.ssh.auth.action.UserAction" method="getOneByUserId">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="getAll" class="com.ssh.auth.action.UserAction" method="getAll" >
+			<!--<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			-->
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+	</package>
+
+
+	<package name="sshLab_shop" namespace="/shop" extends="json-default">
+		<interceptors>
+			<interceptor name="authInterceptor" class="com.ssh.interceptor.AuthInterceptor"/>
+		</interceptors>
+
+		<action name="save" class="com.ssh.shop.action.ShopAction" method="save">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+
+		<action name="saveShopOfUser" class="com.ssh.shop.action.ShopAction" method="saveShopOfUser">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="deleteByUserId" class="com.ssh.shop.action.ShopAction" method="deleteByUserId">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="update" class="com.ssh.shop.action.ShopAction" method="update">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="getAllShop" class="com.ssh.shop.action.ShopAction" method="getAllShop">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="get" class="com.ssh.shop.action.ShopAction" method="getShopByShopId">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="getShopOfUser" class="com.ssh.shop.action.ShopAction" method="getShopOfUser">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+	</package>
+
+	<package name="sshLab_task" namespace="/task" extends="json-default">
+		<interceptors>
+			<interceptor name="authInterceptor" class="com.ssh.interceptor.AuthInterceptor"/>
+		</interceptors>
+
+
+		<action name="save"  class="com.ssh.task.action.TaskAction" method="save">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="saveTaskOfUser" class="com.ssh.task.action.TaskAction" method="saveTaskOfUser">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<action name="getTaskByUserId" class="com.ssh.task.action.TaskAction" method="getTaskByUserId">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<action name="deleteUser_Task" class="com.ssh.task.action.TaskAction" method="deleteUser_Task">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="getAll" class="com.ssh.task.action.TaskAction" method="getAll" >
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<action name="delete"  class="com.ssh.task.action.TaskAction" method="deleteByTaskId">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="update"  class="com.ssh.task.action.TaskAction" method="update">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="get"  class="com.ssh.task.action.TaskAction" method="getOneByTaskId">
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+	</package>
+
+</struts>
