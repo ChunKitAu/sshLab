@@ -19,13 +19,14 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     //查询任务
     @Override
-    public PageBean<Task> getAll(PageBean<Task> pageBean) {
-        String hql = "from Task where start_time < ? and end_time > ?";
+    public PageBean<Task> getAll(PageBean<Task> pageBean , Integer typeId) {
+        String hql = "from Task where start_time < ? and end_time > ? and type_id=? ";
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
         query.setParameter(0,new Date());
         query.setParameter(1,new Date());
+        query.setParameter(2,typeId);
         //从第几条记录开始   页数从0开始  减1
         query.setFirstResult((pageBean.getCurrPage() - 1) * pageBean.getPageSize());
         query.setMaxResults(pageBean.getPageSize());
@@ -113,13 +114,14 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     }
 
     @Override
-    public Integer getCount() {
-        String hql = "from Task where create_time < ? and end_time > ?";
+    public Integer getCount(Integer typeId) {
+        String hql = "from Task where start_time < ? and end_time > ? and type_id=?";
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
         query.setParameter(0,new Date());
         query.setParameter(1,new Date());
+        query.setParameter(2,typeId);
         tasks = (List<Task>)query.list();
         s.close();
         return tasks.size();

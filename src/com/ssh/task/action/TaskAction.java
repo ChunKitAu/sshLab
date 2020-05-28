@@ -139,17 +139,19 @@ public class TaskAction extends ActionSupport {
      * 获取有效任务 即 在开始时间与结束时间内的任务
      * @return
      */
-    public String getAll() {
+    public String getAllByTypeId() {
         error.clear();
         if(currentPage == null)
             error.add("当前页不能为空");
         if(pageSize == null)
             error.add("每页显示大小不能为空");
+        if(task.getType_id()==null)
+            error.add("用户信息不能为空");
         if(error.size()!=0){
             result = CommonResult.validateFail(error);
             return SUCCESS;
         }
-        result =  taskService.getTask(currentPage ,pageSize);
+        result =  taskService.getTask(currentPage ,pageSize,task.getType_id());
         return SUCCESS;
     }
 
