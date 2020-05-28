@@ -56,11 +56,11 @@ public class TaskServiceImpl  implements TaskService {
         return CommonResult.fail();
     }
     @Override
-    public CommonResult getTask(Integer currentPage,Integer pageSize){
+    public CommonResult getTask(Integer currentPage,Integer pageSize,Integer typeId){
         PageBean<Task> pageBean = new PageBean<>();
         pageBean.setPageSize(pageSize);
         //设置记录总数
-        pageBean.setTotal(taskDAO.getCount());
+        pageBean.setTotal(taskDAO.getCount(typeId));
         //获取总页数
          pageBean.setTotalPage( pageBean.getTotal() % pageSize == 0 ? pageBean.getTotal() / pageSize : pageBean.getTotal() / pageSize +1);
         //页数超了
@@ -71,7 +71,7 @@ public class TaskServiceImpl  implements TaskService {
             pageBean.setCurrPage(pageBean.getTotalPage());
         else //没超
             pageBean.setCurrPage(currentPage);
-        pageBean = taskDAO.getAll(pageBean);
+        pageBean = taskDAO.getAll(pageBean,typeId);
         return CommonResult.success(pageBean);
     }
 

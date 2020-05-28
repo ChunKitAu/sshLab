@@ -13,11 +13,11 @@ public interface TaskService {
     public CommonResult save(Task task);
 
     /**
-     * 查询任务
+     * 根据种类查询任务
      * @param pageBean
      * @return
      */
-    CommonResult getTask(Integer currentPage,Integer pageSize);
+    CommonResult getTask(Integer currentPage,Integer pageSize,Integer typeId);
 
     /**
      * 根据任务id，删除任务

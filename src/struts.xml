@@ -165,8 +165,6 @@
 		<interceptors>
 			<interceptor name="authInterceptor" class="com.ssh.interceptor.AuthInterceptor"/>
 		</interceptors>
-
-
 		<action name="save"  class="com.ssh.task.action.TaskAction" method="save">
 			<interceptor-ref name="defaultStack"/>
 			<interceptor-ref name="authInterceptor"/>
@@ -209,7 +207,7 @@
 			</result>
 		</action>
 
-		<action name="getAll" class="com.ssh.task.action.TaskAction" method="getAll" >
+		<action name="getAll" class="com.ssh.task.action.TaskAction" method="getAllByTypeId">
 			<result  type="json">
 				<param name="root">result</param>
 			</result>
@@ -224,7 +222,6 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-
 		<action name="update"  class="com.ssh.task.action.TaskAction" method="update">
 			<interceptor-ref name="defaultStack"/>
 			<interceptor-ref name="authInterceptor"/>
