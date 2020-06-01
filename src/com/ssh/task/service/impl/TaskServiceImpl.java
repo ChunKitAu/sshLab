@@ -113,4 +113,27 @@ public class TaskServiceImpl  implements TaskService {
             return result;
         }
     }
+<<<<<<< HEAD
+
+    @Override
+    public CommonResult findLike(Integer currentPage, Integer pageSize, String str){
+        PageBean<Task> pageBean = new PageBean<>();
+        pageBean.setPageSize(pageSize);
+        //设置记录总数
+        pageBean.setTotal(taskDAO.getCountLike(str));
+        //获取总页数
+        pageBean.setTotalPage( pageBean.getTotal() % pageSize == 0 ? pageBean.getTotal() / pageSize : pageBean.getTotal() / pageSize +1);
+        //页数超了
+        if(currentPage <= 1)
+            pageBean.setCurrPage(1);
+        else if(currentPage > pageBean.getTotalPage())
+            //设置当前页为最后一页
+            pageBean.setCurrPage(pageBean.getTotalPage());
+        else //没超
+            pageBean.setCurrPage(currentPage);
+        pageBean = taskDAO.findlike(pageBean,str);
+        return CommonResult.success(pageBean);
+    }
+=======
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 }

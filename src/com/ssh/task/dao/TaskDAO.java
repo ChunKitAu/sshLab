@@ -26,4 +26,10 @@ public interface TaskDAO {
     PageBean<Task> getTaskByUserId(PageBean<Task> pageBean, Integer  userId);
 
     Integer getCountByUserId(Integer userId);
+<<<<<<< HEAD
+
+    PageBean<Task> findlike(PageBean<Task> pageBean , String str);
+    Integer getCountLike(String str);
+=======
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 }

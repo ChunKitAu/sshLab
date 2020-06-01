@@ -10,7 +10,11 @@ public interface TaskService {
      * @param task
      * @return
      */
+<<<<<<< HEAD
+    CommonResult save(Task task);
+=======
     public CommonResult save(Task task);
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 
     /**
      * 根据种类查询任务
@@ -42,4 +46,12 @@ public interface TaskService {
     CommonResult deleteUser_Task(Integer userId,Integer taskId);
 
     CommonResult getTaskByUserId(Integer currentPage, Integer pageSize,Integer  userId);
+<<<<<<< HEAD
+
+    /**
+     *模糊查询任务名为str的任务
+     */
+    CommonResult findLike(Integer currentPage, Integer pageSize, String str);
+=======
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 }

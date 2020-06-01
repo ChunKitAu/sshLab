@@ -39,8 +39,11 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     @Override
     public PageBean<Task> getTaskByUserId(PageBean<Task> pageBean, Integer  userId){
+<<<<<<< HEAD
+=======
         //String sql = "select * from task as t1，task_user as t2 where t1.id = t2.taskId and t2.userId = ?";
         //select a.*, b.* from task a left outer join task_user b on a.id = b.taskId and b.userId=13
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
         String sql="select a.* from task a join task_user b on a.id = b.taskid and b.userId = ?";
         Session s = getSessionFactory().openSession();
         SQLQuery query = s.createSQLQuery(sql);
@@ -165,4 +168,38 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
             return tasks.get(0);
         }else return null;
     }
+<<<<<<< HEAD
+
+    //模糊查询
+    @Override
+    public PageBean<Task> findlike(PageBean<Task> pageBean , String str) {
+        String hql = "from Task where title like '%"+str+"%'";
+        List<Task> tasks;
+        Session s = getSessionFactory().openSession();
+        Query query = s.createQuery(hql);
+//        String Temp="%"+str+"%";
+//        query.setParameter(0, Temp);
+        //从第几条记录开始   页数从0开始  减1
+        query.setFirstResult((pageBean.getCurrPage() - 1) * pageBean.getPageSize());
+        query.setMaxResults(pageBean.getPageSize());
+        tasks = (List<Task>)query.list();
+        s.close();
+        //保存获取的分页记录
+        pageBean.setData(tasks);
+        return pageBean;
+    }
+    @Override
+    public Integer getCountLike(String str){
+        String sql = "select * from task where title like ?";
+        List<Task> tasks;
+        Session s = getSessionFactory().openSession();
+        SQLQuery query = s.createSQLQuery(sql);
+        String Temp="%"+str+"%";
+        query.setParameter(0, Temp);
+        tasks = (List<Task>)query.list();
+        s.close();
+        return tasks.size();
+    }
+=======
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 }

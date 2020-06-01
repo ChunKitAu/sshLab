@@ -56,7 +56,10 @@ public class TaskAction extends ActionSupport {
         error.clear();
         Date date=new Date();
         Timestamp now = new Timestamp(date.getTime());
+<<<<<<< HEAD
+=======
         check(task.getArea(),"任务地区");
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
         check(task.getType_id(),"任务类别");
         check(task.getTitle(),"任务名称");
         check(task.getContent(),"任务内容");
@@ -64,6 +67,12 @@ public class TaskAction extends ActionSupport {
         check(task.getStart_time(),"任务开始时间");
         check(task.getEnd_time(),"任务结束时间");
 
+<<<<<<< HEAD
+        if(task.getStart_time().after(task.getEnd_time())){
+            error.add("任务开始时间不能晚于结束时间");
+        }
+=======
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
         System.out.println(now);
         task.setCreate_time(now);
         task.setCreate_user(loginUser.getId());
@@ -117,7 +126,10 @@ public class TaskAction extends ActionSupport {
         //清空错误信息
         error.clear();
         check(task.getId(),"任务编号");
+<<<<<<< HEAD
+=======
         check(task.getArea(),"任务地区");
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
         check(task.getType_id(),"任务类别");
         check(task.getTitle(),"任务名称");
         check(task.getContent(),"任务内容");
@@ -127,6 +139,12 @@ public class TaskAction extends ActionSupport {
         check(task.getEnd_time(),"任务结束时间");
         check(task.getNumber(),"任务人数");
 
+<<<<<<< HEAD
+        if(task.getStart_time().after(task.getEnd_time())){
+            error.add("任务开始时间不能晚于结束时间");
+        }
+=======
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
         if(error.size()!=0){
             result = CommonResult.validateFail(error);
             return SUCCESS;
@@ -146,7 +164,11 @@ public class TaskAction extends ActionSupport {
         if(pageSize == null)
             error.add("每页显示大小不能为空");
         if(task.getType_id()==null)
+<<<<<<< HEAD
+            error.add("任务种类信息不能为空");
+=======
             error.add("用户信息不能为空");
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
         if(error.size()!=0){
             result = CommonResult.validateFail(error);
             return SUCCESS;
@@ -167,6 +189,24 @@ public class TaskAction extends ActionSupport {
         return SUCCESS;
     }
 
+<<<<<<< HEAD
+    public String findLike() {
+        error.clear();
+        if(currentPage == null)
+            error.add("当前页不能为空");
+        if(pageSize == null)
+            error.add("每页显示大小不能为空");
+        if(task.getTitle()==null)
+            error.add("查询信息不能为空");
+        if(error.size()!=0){
+            result = CommonResult.validateFail(error);
+            return SUCCESS;
+        }
+        result =  taskService.findLike(currentPage ,pageSize,task.getTitle());
+        return SUCCESS;
+    }
+=======
+>>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
     public Task getTask() {
         return task;
     }
