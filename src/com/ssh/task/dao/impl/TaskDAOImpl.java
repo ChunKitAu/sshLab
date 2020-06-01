@@ -39,11 +39,6 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     @Override
     public PageBean<Task> getTaskByUserId(PageBean<Task> pageBean, Integer  userId){
-<<<<<<< HEAD
-=======
-        //String sql = "select * from task as t1，task_user as t2 where t1.id = t2.taskId and t2.userId = ?";
-        //select a.*, b.* from task a left outer join task_user b on a.id = b.taskId and b.userId=13
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
         String sql="select a.* from task a join task_user b on a.id = b.taskid and b.userId = ?";
         Session s = getSessionFactory().openSession();
         SQLQuery query = s.createSQLQuery(sql);
@@ -168,7 +163,6 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
             return tasks.get(0);
         }else return null;
     }
-<<<<<<< HEAD
 
     //模糊查询
     @Override
@@ -200,6 +194,4 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         s.close();
         return tasks.size();
     }
-=======
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 }

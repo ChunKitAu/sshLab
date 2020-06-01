@@ -22,12 +22,6 @@ public class Task {
     @Column(name = "content")
     private String content;
 
-<<<<<<< HEAD
-=======
-    @Column(name = "area")
-    private String area;
-
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
     @Column(name = "integral")
     private Integer integral;
 
@@ -52,20 +46,12 @@ public class Task {
     public Task() {
     }
 
-<<<<<<< HEAD
     public Task(Integer id, Integer create_user, Integer type_id, String title, String content, Integer integral, Integer number, String img, boolean status, Date create_time, Date start_time, Date end_time) {
-=======
-    public Task(Integer id, Integer create_user, Integer type_id, String title, String content, String area, Integer integral, Integer number, String img, boolean status, Date create_time, Date start_time, Date end_time) {
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
         this.id = id;
         this.create_user = create_user;
         this.type_id = type_id;
         this.title = title;
         this.content = content;
-<<<<<<< HEAD
-=======
-        this.area = area;
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
         this.integral = integral;
         this.number = number;
         this.img = img;
@@ -115,17 +101,6 @@ public class Task {
         this.content = content;
     }
 
-<<<<<<< HEAD
-=======
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
     public Integer getIntegral() {
         return integral;
     }
@@ -181,7 +156,6 @@ public class Task {
     public void setEnd_time(Date end_time) {
         this.end_time = end_time;
     }
-<<<<<<< HEAD
 
     @Override
     public String toString() {
@@ -200,6 +174,4 @@ public class Task {
                 ", end_time=" + end_time +
                 '}';
     }
-=======
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 }

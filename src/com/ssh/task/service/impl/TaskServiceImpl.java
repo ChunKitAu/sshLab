@@ -113,7 +113,6 @@ public class TaskServiceImpl  implements TaskService {
             return result;
         }
     }
-<<<<<<< HEAD
 
     @Override
     public CommonResult findLike(Integer currentPage, Integer pageSize, String str){
@@ -134,6 +133,4 @@ public class TaskServiceImpl  implements TaskService {
         pageBean = taskDAO.findlike(pageBean,str);
         return CommonResult.success(pageBean);
     }
-=======
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 }

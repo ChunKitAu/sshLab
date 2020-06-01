@@ -165,11 +165,7 @@
 		<interceptors>
 			<interceptor name="authInterceptor" class="com.ssh.interceptor.AuthInterceptor"/>
 		</interceptors>
-<<<<<<< HEAD
 		<action name="save" class="com.ssh.task.action.TaskAction" method="save">
-=======
-		<action name="save"  class="com.ssh.task.action.TaskAction" method="save">
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 			<interceptor-ref name="defaultStack"/>
 			<interceptor-ref name="authInterceptor"/>
 			<result name="authFail" type="json">
@@ -216,14 +212,11 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-<<<<<<< HEAD
 		<action name="findLike" class="com.ssh.task.action.TaskAction" method="findLike">
 			<result  type="json">
 				<param name="root">result</param>
 			</result>
 		</action>
-=======
->>>>>>> d66299016d4b7920e8c3fe35dbb78a662e02af0c
 		<action name="delete"  class="com.ssh.task.action.TaskAction" method="deleteByTaskId">
 			<interceptor-ref name="defaultStack"/>
 			<interceptor-ref name="authInterceptor"/>
