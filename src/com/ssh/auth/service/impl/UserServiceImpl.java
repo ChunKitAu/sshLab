@@ -122,6 +122,11 @@ public class UserServiceImpl implements UserService {
             String code64= Base64.encode(JSONUtil.toJsonStr(tokenUser), "utf-8");
             map.put("id",tokenUser.getId());
             map.put("token",code64);
+            if(flag)
+                map.put("getIntegral",1);
+            else
+                map.put("getIntegral",0);
+
             return CommonResult.success(map);
         }else {
             CommonResult result = CommonResult.fail();
