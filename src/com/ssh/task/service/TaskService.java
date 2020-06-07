@@ -17,7 +17,7 @@ public interface TaskService {
      * @param pageBean
      * @return
      */
-    CommonResult getTask(Integer currentPage,Integer pageSize,Integer typeId);
+    CommonResult getTask(Integer userId,Integer currentPage,Integer pageSize,Integer typeId);
 
     /**
      * 根据任务id，删除任务
@@ -46,5 +46,5 @@ public interface TaskService {
     /**
      *模糊查询任务名为str的任务
      */
-    CommonResult findLike(Integer currentPage, Integer pageSize, String str);
+    CommonResult findLike(Integer userId,Integer currentPage, Integer pageSize, String str);
 }

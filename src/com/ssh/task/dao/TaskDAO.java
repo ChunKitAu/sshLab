@@ -7,7 +7,7 @@ public interface TaskDAO {
     //保存任务信息，并返回任务编号
     Integer save(Task task);
     //查询所有的任务
-    PageBean<Task> getAll(PageBean<Task> pageBean,Integer typeId);
+    PageBean<Task> getAll(Integer userId,PageBean<Task> pageBean,Integer typeId);
     //根据任务编号，删除id
     boolean deleteByTaskId(Integer id,Integer userId);
     //修改任务
@@ -27,6 +27,11 @@ public interface TaskDAO {
 
     Integer getCountByUserId(Integer userId);
 
-    PageBean<Task> findlike(PageBean<Task> pageBean , String str);
+    PageBean<Task> findlike(Integer userId,PageBean<Task> pageBean , String str);
+
     Integer getCountLike(String str);
+
+    //查询用户已接收的任务，并去重
+    PageBean<Task> Deduplication(PageBean<Task> pageBean ,Integer userId);
+
 }

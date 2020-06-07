@@ -62,12 +62,11 @@
 		</action>
 
 		<action name="getAll" class="com.ssh.auth.action.UserAction" method="getAll" >
-			<!--<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="defaultStack"/>
 			<interceptor-ref name="authInterceptor"/>
 			<result name="authFail" type="json">
 				<param name="root">authResult</param>
 			</result>
-			-->
 			<result  type="json">
 				<param name="root">result</param>
 			</result>

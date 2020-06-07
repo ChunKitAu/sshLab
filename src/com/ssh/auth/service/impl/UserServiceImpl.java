@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Date;
 
 /**
  * @auther ChunKitAu
@@ -118,16 +118,9 @@ public class UserServiceImpl implements UserService {
             tokenUser.setPassword(null);
             //自定义生成token
             //生成密钥
-            Map<String,Object> map = new HashMap<>();
             String code64= Base64.encode(JSONUtil.toJsonStr(tokenUser), "utf-8");
-            map.put("id",tokenUser.getId());
-            map.put("token",code64);
-            if(flag)
-                map.put("getIntegral",1);
-            else
-                map.put("getIntegral",0);
 
-            return CommonResult.success(map);
+            return CommonResult.success(code64);
         }else {
             CommonResult result = CommonResult.fail();
             result.setMessage("账号或密码错误！");
