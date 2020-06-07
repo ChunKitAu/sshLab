@@ -19,8 +19,8 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     //查询任务
     @Override
-    public PageBean<Task> getAll(PageBean<Task> pageBean , Integer typeId) {
-        String hql = "from Task where start_time < ? and end_time > ? and type_id=? ";
+    public PageBean<Task> getAll(Integer userId,PageBean<Task> pageBean , Integer typeId) {
+        String hql = "from Task where start_time < ? and end_time > ? and type_id=?";
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
@@ -34,7 +34,10 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         s.close();
         //保存获取的分页记录
         pageBean.setData(tasks);
-        return pageBean;
+        if(userId==null)
+            return pageBean;
+        else
+            return Deduplication(pageBean, userId);
     }
 
     @Override
@@ -166,7 +169,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     //模糊查询
     @Override
-    public PageBean<Task> findlike(PageBean<Task> pageBean , String str) {
+    public PageBean<Task> findlike(Integer userId,PageBean<Task> pageBean , String str) {
         String hql = "from Task where title like '%"+str+"%'";
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
@@ -180,7 +183,10 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         s.close();
         //保存获取的分页记录
         pageBean.setData(tasks);
-        return pageBean;
+        if(userId==null)
+            return pageBean;
+        else
+            return Deduplication(pageBean, userId);
     }
     @Override
     public Integer getCountLike(String str){
@@ -193,5 +199,21 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         tasks = (List<Task>)query.list();
         s.close();
         return tasks.size();
+    }
+
+    /**
+     * 根据用户id，筛选出所有用户接受的任务，并将人数取反
+     * @param pageBean
+     * @param userId
+     * @return
+     */
+    @Override
+    public PageBean<Task> Deduplication(PageBean<Task> pageBean ,Integer userId){
+        for(Task task:pageBean.getData()){
+            if(find(userId,task.getId())>0){
+                task.setNumber(~task.getNumber());
+            }
+        }
+        return pageBean;
     }
 }

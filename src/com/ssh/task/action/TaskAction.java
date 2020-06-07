@@ -38,7 +38,9 @@ public class TaskAction extends ActionSupport {
         return true;
     }
     private boolean check(Integer str,String name){
+        System.out.println(true);
         if(str==null) {
+            System.out.println("不能为空");
             error.add(name + "不能为空");
             return false;
         }
@@ -51,6 +53,11 @@ public class TaskAction extends ActionSupport {
         }
         return true;
     }
+
+    /**
+     * 保存任务
+     * @return
+     */
     public String save(){
         //清空错误信息
         error.clear();
@@ -80,6 +87,10 @@ public class TaskAction extends ActionSupport {
         return  SUCCESS;
     }
 
+    /**
+     * 用户接收任务
+     * @return
+     */
     public String saveTaskOfUser(){
         error.clear();
         check(task.getId(),"任务id");
@@ -89,8 +100,14 @@ public class TaskAction extends ActionSupport {
             return SUCCESS;
         }
         result = taskService.saveTaskOfUser(loginUser.getId(),task.getId());
+        //result = taskService.saveTaskOfUser(user.getId(),task.getId());
         return SUCCESS;
     }
+
+    /**
+     * 接任务者取消任务
+     * @return
+     */
     public String deleteUser_Task(){
         error.clear();
         check(task.getId(),"任务id");
@@ -140,7 +157,10 @@ public class TaskAction extends ActionSupport {
     }
 
     /**
-     * 获取有效任务 即 在开始时间与结束时间内的任务
+     * 获取某种类型的任务
+     * 返回值中，需要对任务人数number做一个判断
+     *  number < 0:表示该任务已经接收过，取反后为剩余人数
+     *  number >=0: 表示没有被接收过，为剩余人数
      * @return
      */
     public String getAllByTypeId() {
@@ -155,7 +175,7 @@ public class TaskAction extends ActionSupport {
             result = CommonResult.validateFail(error);
             return SUCCESS;
         }
-        result =  taskService.getTask(currentPage ,pageSize,task.getType_id());
+        result =  taskService.getTask(loginUser.getId(),currentPage ,pageSize,task.getType_id());
         return SUCCESS;
     }
 
@@ -183,7 +203,7 @@ public class TaskAction extends ActionSupport {
             result = CommonResult.validateFail(error);
             return SUCCESS;
         }
-        result =  taskService.findLike(currentPage ,pageSize,task.getTitle());
+        result =  taskService.findLike(loginUser.getId(),currentPage ,pageSize,task.getTitle());
         return SUCCESS;
     }
     public Task getTask() {
