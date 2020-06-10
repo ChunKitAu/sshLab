@@ -136,6 +136,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public CommonResult saveShopOfUser(Integer userId,Integer shopId) {
+
         Shop shop = shopDAO.getShopByShopId(shopId);
         User user = userDAO.getOneByUserId(userId);
         if( user.getIntegral() >= shop.getIntegral()){

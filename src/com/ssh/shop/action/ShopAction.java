@@ -61,7 +61,7 @@ public class ShopAction extends ActionSupport {
             result = CommonResult.validateFail(error);
         }
 
-        result = shopService.saveShopOfUser(shop.getId(),loginUser.getId());
+        result = shopService.saveShopOfUser(loginUser.getId(),shop.getId());
         return SUCCESS;
     }
 
