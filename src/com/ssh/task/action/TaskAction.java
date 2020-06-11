@@ -171,6 +171,8 @@ public class TaskAction extends ActionSupport {
             error.add("每页显示大小不能为空");
         if(task.getType_id()==null)
             error.add("任务种类信息不能为空");
+        if(loginUser.getId()==null)
+            error.add("请先登陆");
         if(error.size()!=0){
             result = CommonResult.validateFail(error);
             return SUCCESS;
