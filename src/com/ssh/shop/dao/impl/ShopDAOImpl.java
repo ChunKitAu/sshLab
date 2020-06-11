@@ -65,7 +65,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
 
     @Override
     public PageBean<Shop> getAll(PageBean<Shop> pageBean) {
-        String hql = "from Shop";
+        String hql = "from Shop order by id desc";
         List<Shop> shops;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
