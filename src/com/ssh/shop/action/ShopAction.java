@@ -65,13 +65,13 @@ public class ShopAction extends ActionSupport {
         return SUCCESS;
     }
 
-    public String deleteByUserId(){
+    public String deleteByShopId(){
         error.clear();
         if(shop.getId() == null){
             error.add("礼品id不能为空");
             result = CommonResult.validateFail(error);
         }
-        result = shopService.deleteByShopId(shop.getId());
+        result = shopService.deleteByShopId(loginUser.getId(),shop.getId());
         return SUCCESS;
     }
 

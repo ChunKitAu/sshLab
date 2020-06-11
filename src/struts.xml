@@ -103,7 +103,7 @@
 			</result>
 		</action>
 
-		<action name="deleteByUserId" class="com.ssh.shop.action.ShopAction" method="deleteByUserId">
+		<action name="deleteByShopId" class="com.ssh.shop.action.ShopAction" method="deleteByShopId">
 			<interceptor-ref name="defaultStack"/>
 			<interceptor-ref name="authInterceptor"/>
 			<result name="authFail" type="json">
