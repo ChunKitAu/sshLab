@@ -36,6 +36,13 @@ public interface TaskService {
      */
     CommonResult getTaskByTaskId(Integer Id);
 
+    /**
+     * 完成任务
+     * @param userId
+     * @param taskId
+     * @return
+     */
+    CommonResult successByTaskId(Integer taskId);
 
     CommonResult saveTaskOfUser(Integer userId,Integer taskId);
 
@@ -47,4 +54,5 @@ public interface TaskService {
      *模糊查询任务名为str的任务
      */
     CommonResult findLike(Integer userId,Integer currentPage, Integer pageSize, String str);
+    Boolean checktaskOfUser(Integer taskId,Integer userId);
 }

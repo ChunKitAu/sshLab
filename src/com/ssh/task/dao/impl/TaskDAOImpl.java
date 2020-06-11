@@ -135,6 +135,32 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     }
 
     @Override
+    public Boolean successByTaskId(Integer taskId){
+        selectImpl<Integer> sqlSelect=(String str, Integer Id)->{
+            Session s = getSessionFactory().openSession();
+            SQLQuery query = s.createSQLQuery(str);
+            query.setParameter(0, Id);
+            return query.list();
+        };
+        if(sqlSelect.select("select * from task where id=? and status=false",taskId).size()==0)
+            return false;
+
+        Task task=getOneByTaskId(taskId);
+        List<Integer> userIds = sqlSelect.select("select userId from task_user where task_user.taskId=?", taskId);
+        for(Iterator<Integer> it=userIds.iterator();it.hasNext();){
+            updateByString("update user set integral=integral+"+task.getIntegral()+" where id=?;",it.next());
+        }
+        updateByString("update task set status=1 where id=?",taskId);
+        return true;
+    }
+
+    public void updateByString(String str,Integer id){
+        Session s = getSessionFactory().openSession();
+        SQLQuery query = s.createSQLQuery(str);
+        query.setParameter(0, id);
+        s.close();
+    }
+    @Override
     public Integer getCountByUserId(Integer userId){
         String sql = "select a.*, b.* from task a join task_user b on a.id = b.taskid and b.userId = ?";
         List<Task> tasks;
@@ -149,13 +175,11 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     @Override
     public Integer find(Integer userId,Integer taskId){
         String sql = "select * from task_user where userId=? and taskId=?";
-        List<Task> tasks;
         Session s = getSessionFactory().openSession();
         SQLQuery query = s.createSQLQuery(sql);
         query.setParameter(0, userId);
         query.setParameter(1, taskId);
-        tasks = (List<Task>)query.list();
-        System.out.println(tasks.size());
+        List<Task> tasks = (List<Task>)query.list();
         s.close();
         return tasks.size();
     }

@@ -1,5 +1,6 @@
 package com.ssh.task.dao;
 
+import com.ssh.common.bean.CommonResult;
 import com.ssh.task.domain.*;
 import com.ssh.common.bean.PageBean;
 public interface TaskDAO {
@@ -34,4 +35,5 @@ public interface TaskDAO {
     //查询用户已接收的任务，并去重
     PageBean<Task> Deduplication(PageBean<Task> pageBean ,Integer userId);
 
+    Boolean successByTaskId(Integer taskId);
 }

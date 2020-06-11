@@ -120,4 +120,20 @@ public class TaskServiceImpl  implements TaskService {
         return CommonResult.success(pageBean);
     }
 
+    @Override
+    public CommonResult successByTaskId(Integer taskId){
+        if(taskDAO.successByTaskId(taskId))
+            return CommonResult.success();
+        return CommonResult.fail();
+    }
+
+    @Override
+    public Boolean checktaskOfUser(Integer taskId,Integer userId){
+        Task task=taskDAO.getOneByTaskId(taskId);
+        if(task.getCreate_user().equals(userId)){
+            return true;
+        }
+        return false;
+    }
+
 }

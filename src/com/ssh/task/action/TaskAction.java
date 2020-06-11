@@ -132,6 +132,22 @@ public class TaskAction extends ActionSupport {
         return SUCCESS;
     }
 
+    public String seccessByTask(){
+        error.clear();
+        if(check(task.getId(),"任务id")==false){
+            result = CommonResult.validateFail(error);
+        }
+        if(taskService.checktaskOfUser(task.getId(),loginUser.getId())==false){
+            error.add("任务仅创建者可操作");
+        }
+        if(error.size()!=0){
+            result = CommonResult.validateFail(error);
+            return SUCCESS;
+        }
+        result = taskService.successByTaskId(task.getId());
+        return SUCCESS;
+    }
+
     public String update(){
         //清空错误信息
         error.clear();
