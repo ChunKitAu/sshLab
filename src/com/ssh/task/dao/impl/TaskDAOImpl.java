@@ -34,23 +34,29 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         s.close();
         //保存获取的分页记录
         pageBean.setData(tasks);
-        if(userId==null)
-            return pageBean;
-        else
-            return Deduplication(pageBean, userId);
+        for(Iterator<Task> it=tasks.iterator();    it.hasNext();    )    {
+            Task task=it.next();
+            System.out.println(task.toString());
+            System.out.println(task);
+            System.out.println("===============");
+        }
+        return Deduplication(pageBean, userId);
     }
 
     @Override
     public PageBean<Task> getTaskByUserId(PageBean<Task> pageBean, Integer  userId){
-        String sql="select a.* from task a join task_user b on a.id = b.taskid and b.userId = ?";
+        String sql="select taskId from task_user where task_user.userId=?";
+        List<Integer> id;
         Session s = getSessionFactory().openSession();
         SQLQuery query = s.createSQLQuery(sql);
-        //从第几条记录开始   页数从0开始  减1
-        query.setFirstResult((pageBean.getCurrPage() - 1) * pageBean.getPageSize());
-        query.setMaxResults(pageBean.getPageSize());
-        query.setParameter(0, userId);
-        List<Task> shops = (List<Task>)query.list();
-        pageBean.setData(shops);
+        query.setParameter(0,userId);
+        id = (List<Integer>)query.list();
+        List<Task> tasks=new ArrayList<>();
+        for(Iterator<Integer> it=id.iterator();it.hasNext();){
+            tasks.add(getOneByTaskId(it.next()));
+        }
+        s.close();
+        pageBean.setData(tasks);
         return pageBean;
 
     }

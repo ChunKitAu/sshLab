@@ -25,9 +25,6 @@ public class Task {
     @Column(name = "integral")
     private Integer integral;
 
-    @Column(name="number")
-    private Integer number;
-
     @Column(name = "img")
     private String img;
 
@@ -43,22 +40,24 @@ public class Task {
     @Column(name = "end_time")
     private Date end_time;
 
+    @Column(name="number")
+    private Integer number;
     public Task() {
     }
 
-    public Task(Integer id, Integer create_user, Integer type_id, String title, String content, Integer integral, Integer number, String img, boolean status, Date create_time, Date start_time, Date end_time) {
+    public Task(Integer id, Integer create_user, Integer type_id, String title, String content, Integer integral, String img, boolean status, Date create_time, Date start_time, Date end_time, Integer number) {
         this.id = id;
         this.create_user = create_user;
         this.type_id = type_id;
         this.title = title;
         this.content = content;
         this.integral = integral;
-        this.number = number;
         this.img = img;
         this.status = status;
         this.create_time = create_time;
         this.start_time = start_time;
         this.end_time = end_time;
+        this.number = number;
     }
 
     public Integer getId() {
@@ -166,12 +165,12 @@ public class Task {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", integral=" + integral +
-                ", number=" + number +
                 ", img='" + img + '\'' +
                 ", status=" + status +
                 ", create_time=" + create_time +
                 ", start_time=" + start_time +
                 ", end_time=" + end_time +
+                ", number=" + number +
                 '}';
     }
 }

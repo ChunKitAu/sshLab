@@ -64,18 +64,10 @@ public class TaskServiceImpl  implements TaskService {
         pageBean.setTotal(taskDAO.getCount(typeId));
         //获取总页数
          pageBean.setTotalPage( pageBean.getTotal() % pageSize == 0 ? pageBean.getTotal() / pageSize : pageBean.getTotal() / pageSize +1);
-        if(currentPage < 1) {
-            //当前页数小于1
-            CommonResult result =  CommonResult.fail();
-            result.setMessage("当前页数小于总页数");
-            return result;
-        } else if(currentPage > pageBean.getTotalPage()){
-            //页数超过总页数
-            CommonResult result =  CommonResult.fail();
-            result.setMessage("当前页数大于总页数");
-            return result;
-        } else pageBean.setCurrPage(currentPage);//没超
-        pageBean = taskDAO.getAll(userId,pageBean,typeId);
+        if(currentPage > 0 && currentPage <= pageBean.getTotalPage()) {
+            pageBean.setCurrPage(currentPage);//没超
+            pageBean = taskDAO.getAll(userId, pageBean, typeId);
+        }
         return CommonResult.success(pageBean);
     }
 
@@ -87,18 +79,10 @@ public class TaskServiceImpl  implements TaskService {
         pageBean.setTotal(taskDAO.getCountByUserId(userId));
         //获取总页数
          pageBean.setTotalPage( pageBean.getTotal() % pageSize == 0 ? pageBean.getTotal() / pageSize : pageBean.getTotal() / pageSize +1);
-        if(currentPage < 1) {
-            //当前页数小于1
-            CommonResult result =  CommonResult.fail();
-            result.setMessage("当前页数小于总页数");
-            return result;
-        } else if(currentPage > pageBean.getTotalPage()){
-            //页数超过总页数
-            CommonResult result =  CommonResult.fail();
-            result.setMessage("当前页数大于总页数");
-            return result;
-        } else pageBean.setCurrPage(currentPage);//没超
-        pageBean = taskDAO.getTaskByUserId(pageBean,userId);
+        if(currentPage > 0 && currentPage <= pageBean.getTotalPage()) {
+            pageBean.setCurrPage(currentPage);//没超
+            pageBean = taskDAO.getTaskByUserId(pageBean,userId);
+        }
         return CommonResult.success(pageBean);
     }
 
@@ -129,18 +113,10 @@ public class TaskServiceImpl  implements TaskService {
         pageBean.setTotal(taskDAO.getCountLike(str));
         //获取总页数
         pageBean.setTotalPage( pageBean.getTotal() % pageSize == 0 ? pageBean.getTotal() / pageSize : pageBean.getTotal() / pageSize +1);
-        if(currentPage < 1) {
-            //当前页数小于1
-            CommonResult result =  CommonResult.fail();
-            result.setMessage("当前页数小于总页数");
-            return result;
-        } else if(currentPage > pageBean.getTotalPage()){
-            //页数超过总页数
-            CommonResult result =  CommonResult.fail();
-            result.setMessage("当前页数大于总页数");
-            return result;
-        } else pageBean.setCurrPage(currentPage);//没超
-        pageBean = taskDAO.findlike(userId,pageBean,str);
+        if(currentPage > 0 && currentPage <= pageBean.getTotalPage()) {
+            pageBean.setCurrPage(currentPage);//没超
+            pageBean = taskDAO.findlike(userId, pageBean, str);
+        }
         return CommonResult.success(pageBean);
     }
 
