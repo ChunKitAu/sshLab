@@ -67,6 +67,10 @@ public class ShopAction extends ActionSupport {
 
     public String deleteByShopId(){
         error.clear();
+        if(loginUser.getRoleId() != 1){
+                return "authFail";
+        }
+
         if(shop.getId() == null){
             error.add("礼品id不能为空");
             result = CommonResult.validateFail(error);
