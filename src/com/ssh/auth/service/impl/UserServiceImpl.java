@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
         Integer integer = userDAO.deleteByUserId(userId);
         if(integer > 0){
             return CommonResult.success();
+
         }else return CommonResult.fail();
     }
 
