@@ -35,6 +35,15 @@ public class Shop  {
     public Shop() {
     }
 
+    public Shop(Integer id,String  img, Integer integral, String description, String name, Boolean isDeleted) {
+        this.id = id;
+        this.img = img;
+        this.integral = integral;
+        this.description = description;
+        this.name = name;
+        this.isDeleted = isDeleted;
+    }
+
     public Shop(String img, Integer integral, String description, String name, Boolean isDeleted) {
         this.img = img;
         this.integral = integral;

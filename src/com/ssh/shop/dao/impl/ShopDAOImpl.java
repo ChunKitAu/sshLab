@@ -10,6 +10,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,17 +99,14 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
                 "ON s.`id` = su.`shopId`  " +
                 "WHERE su.`userId`= ? ";
         Session s = getSessionFactory().openSession();
-        SQLQuery query = s.createSQLQuery(sql);
+        SQLQuery query = s.createSQLQuery(sql).addEntity(Shop.class);
         //从第几条记录开始   页数从0开始  减1
         query.setFirstResult((pageBean.getCurrPage() - 1) * pageBean.getPageSize());
         query.setMaxResults(pageBean.getPageSize());
         query.setParameter(0, userId);
-        List<Shop> shops = (List<Shop>) query.list();
-        pageBean.setData(shops);
-
+        List<Shop> data  = (List<Shop>) query.list();
+        pageBean.setData(data);
         return pageBean;
-
-
     }
 
 
