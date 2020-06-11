@@ -97,6 +97,8 @@ public class ShopAction extends ActionSupport {
         return  SUCCESS;
     }
 
+
+
     public String getAllShop(){
         error.clear();
         if(currentPage == null)
