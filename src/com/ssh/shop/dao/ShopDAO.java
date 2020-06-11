@@ -20,7 +20,7 @@ public interface ShopDAO {
      */
     Integer saveUser_Shop(Integer shopId,Integer userId);
 
-    Integer deleteByShopId(Integer userId,Integer shopId);
+    Integer deleteByShopId(Integer shopId);
 
     void update(Shop shop);
 

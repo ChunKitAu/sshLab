@@ -71,7 +71,7 @@ public class ShopAction extends ActionSupport {
             error.add("礼品id不能为空");
             result = CommonResult.validateFail(error);
         }
-        result = shopService.deleteByShopId(loginUser.getId(),shop.getId());
+        result = shopService.deleteByShopId(shop.getId());
         return SUCCESS;
     }
 

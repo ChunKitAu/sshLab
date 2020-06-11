@@ -10,7 +10,7 @@ import com.ssh.shop.domain.Shop;
 public interface ShopService {
     CommonResult save(Shop shop);
 
-    CommonResult deleteByShopId(Integer userId,Integer shopId);
+    CommonResult deleteByShopId(Integer shopId);
 
     CommonResult update(Shop shop);
 

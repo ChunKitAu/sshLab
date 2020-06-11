@@ -54,8 +54,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public CommonResult deleteByShopId(Integer userId,Integer shopId) {
-        Integer integer = shopDAO.deleteByShopId(userId,shopId);
+    public CommonResult deleteByShopId(Integer shopId) {
+        Integer integer = shopDAO.deleteByShopId(shopId);
         if(integer > 0){
             return CommonResult.success();
         }else return CommonResult.fail();

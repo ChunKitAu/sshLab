@@ -38,22 +38,16 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
     }
 
     @Override
-    public Integer deleteByShopId(Integer userId,Integer shopId) {
+    public Integer deleteByShopId(Integer shopId) {
         Session s = getSessionFactory().openSession();
         s.beginTransaction();
         Shop shop = (Shop) s.get(Shop.class, shopId);
+        shop.setDeleted(true);
         //删除失败
         if (shop == null)
             return 0;
 
-        //修改用户——礼品关系表 的isDeleted =1
-        String sql = "UPDATE shop_user SET isDeleted = 1 WHERE   userId = ?  AND shopId = ? LIMIT 1";
-        SQLQuery query = s.createSQLQuery(sql);
-        query.setParameter(0,userId);
-        query.setParameter(1,shopId);
-        query.executeUpdate();
-
-        s.delete(shop);
+        s.update(shop);
         s.getTransaction().commit();
 
         return 1;

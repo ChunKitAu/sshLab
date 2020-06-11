@@ -28,15 +28,19 @@ public class Shop  {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "isDeleted")
+    private Boolean isDeleted;
+
 
     public Shop() {
     }
 
-    public Shop(String img, Integer integral, String description, String name) {
+    public Shop(String img, Integer integral, String description, String name, Boolean isDeleted) {
         this.img = img;
         this.integral = integral;
         this.description = description;
         this.name = name;
+        this.isDeleted = isDeleted;
     }
 
     public Integer getId() {
@@ -77,5 +81,13 @@ public class Shop  {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 }
