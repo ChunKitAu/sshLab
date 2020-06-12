@@ -60,4 +60,10 @@ public interface TaskService {
      * 获取用户创建的任务
      */
     CommonResult getTaskByAuthor(Integer currentPage, Integer pageSize,Integer  userId);
+
+    void spendingIntegral(Integer userId,int rs);
+
+    Integer GetIntegral(Integer userId);
+
+    Integer getSpendingIntegral(Integer taskId);
 }

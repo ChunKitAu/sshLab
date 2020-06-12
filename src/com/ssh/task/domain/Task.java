@@ -43,10 +43,13 @@ public class Task {
     @Column(name="number")
     private Integer number;
 
+    @Column(name="phone")
+    private Integer phone;
+
     public Task() {
     }
 
-    public Task(Integer id, Integer create_user, Integer type_id, String title, String content, Integer integral, String img, boolean status, Date create_time, Date start_time, Date end_time, Integer number) {
+    public Task(Integer id, Integer create_user, Integer type_id, String title, String content, Integer integral, String img, boolean status, Date create_time, Date start_time, Date end_time, Integer number, Integer phone) {
         this.id = id;
         this.create_user = create_user;
         this.type_id = type_id;
@@ -59,6 +62,15 @@ public class Task {
         this.start_time = start_time;
         this.end_time = end_time;
         this.number = number;
+        this.phone = phone;
+    }
+
+    public Integer getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Integer phone) {
+        this.phone = phone;
     }
 
     public Integer getId() {
@@ -172,6 +184,7 @@ public class Task {
                 ", start_time=" + start_time +
                 ", end_time=" + end_time +
                 ", number=" + number +
+                ", phone=" + phone +
                 '}';
     }
 }

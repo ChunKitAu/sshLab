@@ -69,11 +69,17 @@ public class TaskAction extends ActionSupport {
         check(task.getImg(),"任务图片");
         check(task.getStart_time(),"任务开始时间");
         check(task.getEnd_time(),"任务结束时间");
-
+        check(task.getNumber(),"任务人数");
+        check(task.getPhone(),"联系方式");
+        check(task.getIntegral(),"任务积分");
         if(task.getStart_time().after(task.getEnd_time())){
             error.add("任务开始时间不能晚于结束时间");
         }
-        System.out.println(now);
+        int spend=taskService.GetIntegral(loginUser.getId())-task.getIntegral()*task.getNumber();
+
+        if(spend>=0) taskService.spendingIntegral(task.getCreate_user(),spend);
+        else error.add("积分不足");
+
         task.setCreate_time(now);
         task.setCreate_user(loginUser.getId());
 
@@ -86,7 +92,6 @@ public class TaskAction extends ActionSupport {
         result = taskService.save(task);
         return  SUCCESS;
     }
-
     /**
      * 用户接收任务
      * @return
@@ -103,7 +108,6 @@ public class TaskAction extends ActionSupport {
         //result = taskService.saveTaskOfUser(user.getId(),task.getId());
         return SUCCESS;
     }
-
     /**
      * 接任务者取消任务
      * @return
@@ -172,18 +176,28 @@ public class TaskAction extends ActionSupport {
         check(task.getTitle(),"任务名称");
         check(task.getContent(),"任务内容");
         check(task.getImg(),"任务图片");
-        check(task.getCreate_user(),"任务发起人");
         check(task.getStart_time(),"任务开始时间");
         check(task.getEnd_time(),"任务结束时间");
         check(task.getNumber(),"任务人数");
-
+        check(task.getPhone(),"联系方式");
+        check(task.getIntegral(),"任务积分");
+        check(loginUser.getId(),"登陆信息");
         if(task.getStart_time().after(task.getEnd_time())){
             error.add("任务开始时间不能晚于结束时间");
         }
+        int spend=taskService.GetIntegral(loginUser.getId())-task.getIntegral()*task.getNumber()+taskService.getSpendingIntegral(task.getId());
+        if(spend>=0) taskService.spendingIntegral(task.getCreate_user(),spend);
+        else error.add("积分不足");
         if(error.size()!=0){
             result = CommonResult.validateFail(error);
             return SUCCESS;
         }
+
+        Date date=new Date();
+        Timestamp now = new Timestamp(date.getTime());
+        task.setCreate_time(now);
+        task.setId(loginUser.getId());
+        task.setStatus(false);
         result = taskService.updateByTask(task);
         return  SUCCESS;
     }

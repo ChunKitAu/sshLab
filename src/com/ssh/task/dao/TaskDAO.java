@@ -38,4 +38,8 @@ public interface TaskDAO {
     Boolean successByTaskId(Integer taskId);
 
     PageBean<Task> getTaskByAuthor(PageBean<Task> pageBean,Integer userId);
+
+    void spendingIntegral(Integer userId,int rs);
+
+    Integer GetIntegral(Integer userId);
 }
