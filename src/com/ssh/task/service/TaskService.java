@@ -55,4 +55,9 @@ public interface TaskService {
      */
     CommonResult findLike(Integer userId,Integer currentPage, Integer pageSize, String str);
     Boolean checktaskOfUser(Integer taskId,Integer userId);
+
+    /**
+     * 获取用户创建的任务
+     */
+    CommonResult getTaskByAuthor(Integer currentPage, Integer pageSize,Integer  userId);
 }

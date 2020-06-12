@@ -247,6 +247,16 @@
 			</result>
 		</action>
 
+		<action name="getTaskByAuthor"  class="com.ssh.task.action.TaskAction" method="getTaskByAuthor">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
 
 		<action name="seccessByTask"  class="com.ssh.task.action.TaskAction" method="seccessByTask">
 			<interceptor-ref name="defaultStack"/>

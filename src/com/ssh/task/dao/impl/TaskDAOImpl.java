@@ -1,5 +1,8 @@
 package com.ssh.task.dao.impl;
 
+import com.ssh.auth.dao.UserDAO;
+import com.ssh.auth.dao.impl.UserDAOImpl;
+import com.ssh.auth.domain.User;
 import com.ssh.common.bean.BaseDAO;
 import com.ssh.common.bean.PageBean;
 import org.hibernate.Query;
@@ -14,9 +17,20 @@ import com.ssh.task.dao.*;
 import com.ssh.task.domain.*;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Component("taskDAO")
 public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
+    private UserDAO userDAO;
+
+    @Resource(name="userDAO")
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+    public UserDAO getUserDAO() {
+        return userDAO;
+    }
     //查询任务
     @Override
     public PageBean<Task> getAll(Integer userId,PageBean<Task> pageBean , Integer typeId) {
@@ -142,24 +156,20 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
             query.setParameter(0, Id);
             return query.list();
         };
-        if(sqlSelect.select("select * from task where id=? and status=false",taskId).size()==0)
+        if(sqlSelect.select("select id from task where id=? and status=false",taskId).size()==0)
             return false;
-
         Task task=getOneByTaskId(taskId);
         List<Integer> userIds = sqlSelect.select("select userId from task_user where task_user.taskId=?", taskId);
         for(Iterator<Integer> it=userIds.iterator();it.hasNext();){
-            updateByString("update user set integral=integral+"+task.getIntegral()+" where id=?;",it.next());
+            User user=userDAO.getOneByUserId(it.next());
+            user.setIntegral(user.getIntegral()+task.getIntegral());
+            userDAO.update(user);
         }
-        updateByString("update task set status=1 where id=?",taskId);
+        task.setStatus(true);
+        updateByTask(task);
         return true;
     }
 
-    public void updateByString(String str,Integer id){
-        Session s = getSessionFactory().openSession();
-        SQLQuery query = s.createSQLQuery(str);
-        query.setParameter(0, id);
-        s.close();
-    }
     @Override
     public Integer getCountByUserId(Integer userId){
         String sql = "select a.*, b.* from task a join task_user b on a.id = b.taskid and b.userId = ?";
@@ -204,8 +214,6 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
-//        String Temp="%"+str+"%";
-//        query.setParameter(0, Temp);
         //从第几条记录开始   页数从0开始  减1
         query.setFirstResult((pageBean.getCurrPage() - 1) * pageBean.getPageSize());
         query.setMaxResults(pageBean.getPageSize());
@@ -244,6 +252,22 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
                 task.setNumber(~task.getNumber());
             }
         }
+        return pageBean;
+    }
+
+    /**
+     * 获取用户所创建的任务
+     */
+    @Override
+    public PageBean<Task> getTaskByAuthor(PageBean<Task> pageBean,Integer userId){
+        String hql = "from Task where create_user = ?";
+        Session s = getSessionFactory().openSession();
+        Query query = s.createQuery(hql);
+        query.setParameter(0,userId);
+        List<Task> tasks = (List<Task>)query.list();
+        pageBean.setData(tasks);
+        pageBean.setTotal(tasks.size());
+        s.close();
         return pageBean;
     }
 }

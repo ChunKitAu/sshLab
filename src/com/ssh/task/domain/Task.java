@@ -42,6 +42,7 @@ public class Task {
 
     @Column(name="number")
     private Integer number;
+
     public Task() {
     }
 

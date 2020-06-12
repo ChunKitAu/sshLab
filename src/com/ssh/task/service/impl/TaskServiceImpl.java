@@ -135,5 +135,19 @@ public class TaskServiceImpl  implements TaskService {
         }
         return false;
     }
+    @Override
+    public CommonResult getTaskByAuthor(Integer currentPage, Integer pageSize,Integer  userId){
+        PageBean<Task> pageBean = new PageBean<>();
+        pageBean = taskDAO.getTaskByAuthor(pageBean, userId);
+        pageBean.setPageSize(pageSize);
+        //获取总页数
+        pageBean.setTotalPage( pageBean.getTotal() % pageSize == 0 ? pageBean.getTotal() / pageSize : pageBean.getTotal() / pageSize +1);
+        if(currentPage > 0 && currentPage <= pageBean.getTotalPage()) {
+            pageBean.setCurrPage(currentPage);//没超
+            System.out.println("进入if");
+        }
+        else pageBean.setData(null);
+        return CommonResult.success(pageBean);
+    }
 
 }

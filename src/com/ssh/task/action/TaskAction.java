@@ -148,6 +148,22 @@ public class TaskAction extends ActionSupport {
         return SUCCESS;
     }
 
+    public String getTaskByAuthor(){
+        error.clear();
+        if(currentPage == null)
+            error.add("当前页不能为空");
+        if(pageSize == null)
+            error.add("每页显示大小不能为空");
+        if(loginUser.getId()==null)
+            error.add("请先登陆");
+        if(error.size()!=0){
+            result = CommonResult.validateFail(error);
+            return SUCCESS;
+        }
+        result =  taskService.getTaskByAuthor(currentPage ,pageSize,loginUser.getId());
+        return SUCCESS;
+    }
+
     public String update(){
         //清空错误信息
         error.clear();

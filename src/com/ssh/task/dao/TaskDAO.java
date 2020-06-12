@@ -36,4 +36,6 @@ public interface TaskDAO {
     PageBean<Task> Deduplication(PageBean<Task> pageBean ,Integer userId);
 
     Boolean successByTaskId(Integer taskId);
+
+    PageBean<Task> getTaskByAuthor(PageBean<Task> pageBean,Integer userId);
 }
