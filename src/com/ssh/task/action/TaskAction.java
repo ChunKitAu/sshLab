@@ -76,10 +76,6 @@ public class TaskAction extends ActionSupport {
         if(task.getStart_time().after(task.getEnd_time())){
             error.add("任务开始时间不能晚于结束时间");
         }
-        int spend=taskService.GetIntegral(loginUser.getId())-task.getIntegral()*task.getNumber();
-
-        if(spend>=0) taskService.spendingIntegral(loginUser.getId(),spend);
-        else error.add("积分不足");
 
         task.setCreate_time(now);
         task.setCreate_user(loginUser.getId());
@@ -186,9 +182,6 @@ public class TaskAction extends ActionSupport {
         if(task.getStart_time().after(task.getEnd_time())){
             error.add("任务开始时间不能晚于结束时间");
         }
-        int spend=taskService.GetIntegral(loginUser.getId())-task.getIntegral()*task.getNumber()+taskService.getSpendingIntegral(task.getId());
-        if(spend>=0) taskService.spendingIntegral(loginUser.getId(),spend);
-        else error.add("积分不足");
         if(error.size()!=0){
             result = CommonResult.validateFail(error);
             return SUCCESS;
