@@ -44,12 +44,12 @@ public class Task {
     private Integer number;
 
     @Column(name="phone")
-    private Integer phone;
+    private String phone;
 
     public Task() {
     }
 
-    public Task(Integer id, Integer create_user, Integer type_id, String title, String content, Integer integral, String img, boolean status, Date create_time, Date start_time, Date end_time, Integer number, Integer phone) {
+    public Task(Integer id, Integer create_user, Integer type_id, String title, String content, Integer integral, String img, boolean status, Date create_time, Date start_time, Date end_time, Integer number, String phone) {
         this.id = id;
         this.create_user = create_user;
         this.type_id = type_id;
@@ -65,11 +65,11 @@ public class Task {
         this.phone = phone;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

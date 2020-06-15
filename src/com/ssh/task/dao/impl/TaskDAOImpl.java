@@ -80,7 +80,9 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     public Integer save(Task task){
         Session s = getSessionFactory().openSession();
         s.beginTransaction();
+        System.out.println(task);
         Integer id = (Integer) s.save(task);
+        System.out.println(id);
         s.getTransaction().commit();
         return id;
     }

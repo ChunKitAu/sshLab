@@ -164,6 +164,5 @@ public class TaskServiceImpl  implements TaskService {
     public Integer getSpendingIntegral(Integer taskId){
         Task task = taskDAO.getOneByTaskId(taskId);
         return task.getIntegral()*task.getNumber();
-
     }
 }
