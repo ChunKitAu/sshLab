@@ -6,12 +6,14 @@ import com.ssh.task.domain.Task;
 import com.ssh.task.service.TaskService;
 import com.ssh.common.bean.CommonResult;
 import com.ssh.task.dao.TaskDAO;
+import org.springframework.context.annotation.Scope;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Scope("prototype")
 public class TaskAction extends ActionSupport {
     private Task task;
     private TaskService taskService;
@@ -79,6 +81,8 @@ public class TaskAction extends ActionSupport {
         }
 
         task.setCreate_time(now);
+        //前端传的id从0 开始
+        task.setType_id(task.getType_id() + 1);
         task.setCreate_user(loginUser.getId());
         //表单验证失败
         if(error.size()!=0){
@@ -88,6 +92,7 @@ public class TaskAction extends ActionSupport {
         System.out.println(task);
         result = CommonResult.success(task);
         result = taskService.save(task);
+        System.out.println("===============================");
         return  SUCCESS;
     }
     /**

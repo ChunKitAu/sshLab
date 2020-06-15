@@ -78,13 +78,20 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     //添加任务，返回任务编号
     @Override
     public Integer save(Task task){
-        Session s = getSessionFactory().openSession();
-        s.beginTransaction();
-        System.out.println(task);
-        Integer id = (Integer) s.save(task);
-        System.out.println(id);
-        s.getTransaction().commit();
-        return id;
+        try{
+            Session s = getSessionFactory().openSession();
+            s.beginTransaction();
+            System.out.println(task);
+            Integer id = (Integer) s.save(task);
+            s.getTransaction().commit();
+            s.close();
+            return id;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            return 0;
+        }
+
     }
 
     @Override
