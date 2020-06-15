@@ -64,6 +64,7 @@ public class TaskAction extends ActionSupport {
         Date date=new Date();
         Timestamp now = new Timestamp(date.getTime());
         check(task.getType_id(),"任务类别");
+//        System.out.println("Integer赋值于String:"+task.getType_id());
         check(task.getTitle(),"任务名称");
         check(task.getContent(),"任务内容");
         check(task.getImg(),"任务图片");
@@ -79,12 +80,12 @@ public class TaskAction extends ActionSupport {
 
         task.setCreate_time(now);
         task.setCreate_user(loginUser.getId());
-
         //表单验证失败
         if(error.size()!=0){
             result = CommonResult.validateFail(error);
             return SUCCESS;
         }
+        System.out.println(task);
         result = CommonResult.success(task);
         result = taskService.save(task);
         return  SUCCESS;
