@@ -131,7 +131,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         Session s = getSessionFactory().openSession();
         s.beginTransaction();
         s.update(task);
-        System.out.println(task);
+
         s.getTransaction().commit();
     }
 
