@@ -140,8 +140,11 @@ public class ShopServiceImpl implements ShopService {
         Shop shop = shopDAO.getShopByShopId(shopId);
         User user = userDAO.getOneByUserId(userId);
         if( user.getIntegral() >= shop.getIntegral()){
-            if(shopDAO.saveUser_Shop(shopId,userId) > 0)
+            if(shopDAO.saveUser_Shop(shopId,userId) > 0){
+                user.setIntegral(user.getIntegral() - shop.getIntegral());
+                userDAO.update(user);
                 return CommonResult.success();
+            }
             else
                 return CommonResult.fail();
         }else{
