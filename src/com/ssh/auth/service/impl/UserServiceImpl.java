@@ -130,7 +130,11 @@ public class UserServiceImpl implements UserService {
             Integer id = tokenUser.getId();
 
             Map<String,Object> data = new HashMap<>();
-            data.put("getIntegral",integral);
+
+            if(flag){
+                data.put("getIntegral",1);
+            }else data.put("getIntegral",0);
+
             data.put("id",id);
             data.put("token",code64);
 
