@@ -79,6 +79,21 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
     }
 
     @Override
+    public PageBean<Shop> getAllNoDelete(PageBean<Shop> pageBean) {
+        String hql = "FROM shop WHERE isDeleted = 0 ORDER BY id DESC";
+        List<Shop> shops;
+        Session s = getSessionFactory().openSession();
+        Query query = s.createQuery(hql);
+        //从第几条记录开始   页数从0开始  减1
+        query.setFirstResult((pageBean.getCurrPage() - 1) * pageBean.getPageSize());
+        query.setMaxResults(pageBean.getPageSize());
+        shops = (List<Shop>) query.list();
+        //保存获取的分页记录
+        pageBean.setData(shops);
+        return pageBean;
+    }
+
+    @Override
     public Shop getShopByShopId(Integer userId) {
         String hql = "from Shop where id = ?";
         Session s = getSessionFactory().openSession();

@@ -20,6 +20,8 @@ public interface ShopService {
      */
     CommonResult getAll(Integer currentPage,Integer pageSize);
 
+    CommonResult getAllNoDeleted(Integer currentPage,Integer pageSize);
+
     CommonResult getShopByShopId(Integer userId);
 
     /**

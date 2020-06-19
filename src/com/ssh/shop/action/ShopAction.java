@@ -117,6 +117,20 @@ public class ShopAction extends ActionSupport {
         return SUCCESS;
     }
 
+    public String getAllShopNoDlete(){
+        error.clear();
+        if(currentPage == null)
+            error.add("当前页不能为空");
+        if(pageSize == null)
+            error.add("每页显示大小不能为空");
+        if(error.size()!=0){
+            result = CommonResult.validateFail(error);
+            return SUCCESS;
+        }
+        result = shopService.getAllNoDeleted(currentPage,pageSize);
+        return SUCCESS;
+    }
+
     public String getShopOfUser(){
         error.clear();
         if(currentPage == null)

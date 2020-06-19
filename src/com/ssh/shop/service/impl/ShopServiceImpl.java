@@ -94,6 +94,32 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    public CommonResult getAllNoDeleted(Integer currentPage, Integer pageSize) {
+        PageBean<Shop> pageBean = new PageBean<>();
+        pageBean.setPageSize(pageSize);
+        //设置记录总数
+        pageBean.setTotal(shopDAO.getShopCount());
+        //获取总页数
+        pageBean.setTotalPage( pageBean.getTotal() % pageSize == 0 ? pageBean.getTotal() / pageSize : pageBean.getTotal() / pageSize +1);
+
+        if(currentPage < 1) {
+            //当前页数小于1
+            CommonResult result =  CommonResult.fail();
+            result.setMessage("当前页数小于总页数");
+            return result;
+        } else if(currentPage > pageBean.getTotalPage()){
+            //页数超过总页数
+            CommonResult result =  CommonResult.fail();
+            result.setMessage("当前页数大于总页数");
+            return result;
+        } else pageBean.setCurrPage(currentPage);//没超
+
+        pageBean = shopDAO.getAllNoDelete(pageBean);
+
+        return CommonResult.success(pageBean);
+    }
+
+    @Override
     public CommonResult getShopByShopId(Integer userId) {
         Shop shop =  shopDAO.getShopByShopId(userId);
         if(shop != null){

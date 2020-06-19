@@ -31,6 +31,10 @@ public interface ShopDAO {
      */
     PageBean<Shop> getAll(PageBean<Shop> pageBean);
 
+
+    PageBean<Shop> getAllNoDelete(PageBean<Shop> pageBean);
+
+
     Shop getShopByShopId(Integer userId);
 
     /**

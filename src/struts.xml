@@ -136,6 +136,18 @@
 			</result>
 		</action>
 
+		<action name="getAllShopNoDelete" class="com.ssh.shop.action.ShopAction" method="getAllShop">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="authInterceptor"/>
+			<result name="authFail" type="json">
+				<param name="root">authResult</param>
+			</result>
+			<result  type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+
 		<action name="get" class="com.ssh.shop.action.ShopAction" method="getShopByShopId">
 			<interceptor-ref name="defaultStack"/>
 			<interceptor-ref name="authInterceptor"/>
