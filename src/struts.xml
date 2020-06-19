@@ -136,7 +136,7 @@
 			</result>
 		</action>
 
-		<action name="getAllShopNoDelete" class="com.ssh.shop.action.ShopAction" method="getAllShop">
+		<action name="getAllShopNoDelete" class="com.ssh.shop.action.ShopAction" method="getAllShopNoDlete">
 			<interceptor-ref name="defaultStack"/>
 			<interceptor-ref name="authInterceptor"/>
 			<result name="authFail" type="json">

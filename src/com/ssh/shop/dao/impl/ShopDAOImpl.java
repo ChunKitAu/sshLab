@@ -80,7 +80,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
 
     @Override
     public PageBean<Shop> getAllNoDelete(PageBean<Shop> pageBean) {
-        String hql = "FROM shop WHERE isDeleted = 0 ORDER BY id DESC";
+        String hql = "FROM Shop WHERE isDeleted = 0 ORDER BY id DESC";
         List<Shop> shops;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
