@@ -25,6 +25,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
         s.beginTransaction();
         Integer id = (Integer) s.save(shop);
         s.getTransaction().commit();
+        s.close();
         return id;
     }
 
@@ -35,6 +36,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
         SQLQuery query = s.createSQLQuery(sql);
         query.setParameter(0, shopId);
         query.setParameter(1, userId);
+        s.close();
         return query.executeUpdate();
     }
 
@@ -50,7 +52,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
 
         s.update(shop);
         s.getTransaction().commit();
-
+        s.close();
         return 1;
     }
 
@@ -60,7 +62,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
         s.beginTransaction();
         s.update(shop);
         s.getTransaction().commit();
-
+        s.close();
     }
 
     @Override
@@ -75,6 +77,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
         shops = (List<Shop>) query.list();
         //保存获取的分页记录
         pageBean.setData(shops);
+        s.close();
         return pageBean;
     }
 
@@ -90,6 +93,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
         shops = (List<Shop>) query.list();
         //保存获取的分页记录
         pageBean.setData(shops);
+        s.close();
         return pageBean;
     }
 
@@ -100,6 +104,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
         Query query = s.createQuery(hql);
         query.setParameter(0, userId);
         List<Shop> shops = (List<Shop>) query.list();
+        s.close();
         //查询id只会返回一条数据
         if (shops.size() != 0) {
             return shops.get(0);
@@ -121,6 +126,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
         query.setParameter(0, userId);
         List<Shop> data  = (List<Shop>) query.list();
         pageBean.setData(data);
+        s.close();
         return pageBean;
     }
 
@@ -137,9 +143,20 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
         //从第几条记录开始   页数从0开始  减1
         query.setParameter(0, userId);
         List<Shop> shops = (List<Shop>) query.list();
-
+        s.close();
         return shops.size();
 
+    }
+
+    @Override
+    public Integer getShopNoDeleteCount() {
+        String hql = "FROM Shop WHERE isDeleted = 0 ORDER BY id DESC";
+        List<Shop> shops;
+        Session s = getSessionFactory().openSession();
+        Query query = s.createQuery(hql);
+        shops = (List<Shop>) query.list();
+        s.close();
+        return shops.size();
     }
 
     @Override

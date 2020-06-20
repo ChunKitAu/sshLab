@@ -55,4 +55,7 @@ public interface ShopDAO {
      * @return
      */
     Integer getShopOfUserCount(Integer userId);
+
+
+    Integer getShopNoDeleteCount();
 }

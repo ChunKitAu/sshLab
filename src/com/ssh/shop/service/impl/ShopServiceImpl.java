@@ -98,7 +98,7 @@ public class ShopServiceImpl implements ShopService {
         PageBean<Shop> pageBean = new PageBean<>();
         pageBean.setPageSize(pageSize);
         //设置记录总数
-        pageBean.setTotal(shopDAO.getShopCount());
+        pageBean.setTotal(shopDAO.getShopNoDeleteCount());
         //获取总页数
         pageBean.setTotalPage( pageBean.getTotal() % pageSize == 0 ? pageBean.getTotal() / pageSize : pageBean.getTotal() / pageSize +1);
 
