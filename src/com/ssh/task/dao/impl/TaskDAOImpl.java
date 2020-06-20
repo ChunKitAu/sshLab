@@ -84,7 +84,6 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         Integer id = (Integer) s.save(task);
         s.getTransaction().commit();
         s.close();
-        System.out.println("id为："+id);
         return id;
 
     }
