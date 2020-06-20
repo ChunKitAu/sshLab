@@ -18,6 +18,7 @@ import com.ssh.task.domain.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.persistence.Id;
 
 @Component("taskDAO")
 public class TaskDAOImpl extends BaseDAO implements TaskDAO{
@@ -155,38 +156,33 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     @Override
     public Boolean successByTaskId(Integer taskId){
-        try{
-            Session s = getSessionFactory().openSession();
-            s.beginTransaction();
-            selectImpl<Integer> sqlSelect=(String str, Integer Id)->{
-                SQLQuery query = s.createSQLQuery(str);
-                query.setParameter(0, Id);
-                return query.list();
-            };
-            if(sqlSelect.select("select id from task where id=? and status=false",taskId).size()==0)
-                return false;
-            Task task=getOneByTaskId(taskId);
-            task.setStatus(true);
+        Session s = getSessionFactory().openSession();
+        s.beginTransaction();
+        selectImpl<Integer> sqlSelect=(String str, Integer Id)->{
+            SQLQuery query = s.createSQLQuery(str);
+            query.setParameter(0, Id);
+            return query.list();
+        };
+        if(sqlSelect.select("select id from task where id=? and status=false",taskId).size()==0)
+            return false;
+        Task task=getOneByTaskId(taskId);
+        task.setStatus(true);
 
-            SQLQuery sql = s.createSQLQuery("UPDATE task SET  `status` = 1 WHERE id = ? ");
-            sql.setParameter(0,task.getId());
-            int i = sql.executeUpdate();
+        List<Integer> userIds = sqlSelect.select("select userId from task_user where task_user.taskId=?", taskId);
 
-            List<Integer> userIds = sqlSelect.select("select userId from task_user where task_user.taskId=?", taskId);
-
-            SQLQuery sql2 = s.createSQLQuery("UPDATE `user` SET integral = ? WHERE id = ? ");
-            for(Iterator<Integer> it=userIds.iterator();it.hasNext();){
-                User user=userDAO.getOneByUserId(it.next());
-                sql2.setParameter(0,user.getIntegral()+task.getIntegral());
-                sql2.setParameter(1,user.getId());
-                int x = sql2.executeUpdate();
-            }
-            s.getTransaction().commit();
-            s.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
+        SQLQuery sql2 = s.createSQLQuery("UPDATE `user` SET integral = ? WHERE id = ? ");
+        for(Iterator<Integer> it=userIds.iterator();it.hasNext();){
+            User user=userDAO.getOneByUserId(it.next());
+            sql2.setParameter(0,user.getIntegral()+task.getIntegral());
+            sql2.setParameter(1,user.getId());
+            int x = sql2.executeUpdate();
         }
+        SQLQuery sql = s.createSQLQuery("UPDATE task SET  `status` = 1 WHERE id = ? ");
+        sql.setParameter(0,task.getId());
+        int i = sql.executeUpdate();
+
+        s.getTransaction().commit();
+        s.close();
         return true;
     }
 

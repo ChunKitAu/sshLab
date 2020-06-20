@@ -153,7 +153,6 @@ public class TaskAction extends ActionSupport {
             e.printStackTrace();
             result = CommonResult.fail();
         }
-
         return SUCCESS;
     }
 
