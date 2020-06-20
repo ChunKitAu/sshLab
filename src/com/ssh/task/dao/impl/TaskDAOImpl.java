@@ -34,7 +34,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     //查询任务
     @Override
     public PageBean<Task> getAll(Integer userId,PageBean<Task> pageBean , Integer typeId) {
-        String hql = "from Task where start_time < ? and end_time > ? and type_id=?";
+        String hql = "from Task where start_time < ? and end_time > ? and type_id=? order by end_time ";
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
@@ -57,16 +57,17 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     @Override
     public PageBean<Task> getTaskByUserId(PageBean<Task> pageBean, Integer  userId){
-        String sql="select taskId from task_user where task_user.userId=?";
+        String sql="SELECT t.* " +
+                "FROM task AS t " +
+                "RIGHT JOIN task_user AS tu " +
+                "ON t.`id` = tu.taskId " +
+                "WHERE tu.`userId`= ? " +
+                "ORDER BY id DESC";
         List<Integer> id;
         Session s = getSessionFactory().openSession();
-        SQLQuery query = s.createSQLQuery(sql);
+        SQLQuery query = s.createSQLQuery(sql).addEntity(Task.class);
         query.setParameter(0,userId);
-        id = (List<Integer>)query.list();
-        List<Task> tasks=new ArrayList<>();
-        for(Iterator<Integer> it=id.iterator();it.hasNext();){
-            tasks.add(getOneByTaskId(it.next()));
-        }
+        List<Task> tasks = (List<Task>)query.list();
         s.close();
         tasks=change(tasks);
         pageBean.setData(tasks);
@@ -91,8 +92,9 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         SQLQuery query = s.createSQLQuery(sql);
         query.setParameter(0, taskId);
         query.setParameter(1, userId);
+        int i = query.executeUpdate();
         s.close();
-        return query.executeUpdate();
+        return i;
     }
 
     //删除任务，放回是否成功
@@ -131,6 +133,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     public void updateByTask(Task task) {
         Session s = getSessionFactory().openSession();
         s.beginTransaction();
+        System.out.println(task);
         s.update(task);
         s.getTransaction().commit();
         s.close();
@@ -174,7 +177,11 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     @Override
     public Integer getCountByUserId(Integer userId){
-        String sql = "select a.*, b.* from task a join task_user b on a.id = b.taskid and b.userId = ?";
+         String sql="SELECT t.* " +
+                "FROM task AS t " +
+                "RIGHT JOIN task_user AS tu " +
+                "ON t.`id` = tu.taskId " +
+                "WHERE tu.`userId`= ? ";
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
         SQLQuery query = s.createSQLQuery(sql);

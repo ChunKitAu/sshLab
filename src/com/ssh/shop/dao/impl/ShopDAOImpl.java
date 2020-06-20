@@ -55,7 +55,9 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
     @Override
     public void update(Shop shop) {
         Session s = getSessionFactory().openSession();
+        s.beginTransaction();
         s.update(shop);
+        s.getTransaction().commit();
         s.close();
     }
 
@@ -111,7 +113,8 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
                 "FROM shop AS s " +
                 "RIGHT JOIN shop_user AS su " +
                 "ON s.`id` = su.`shopId`  " +
-                "WHERE su.`userId`= ? ";
+                "WHERE su.`userId`= ? " +
+                "order by id desc";
         Session s = getSessionFactory().openSession();
         SQLQuery query = s.createSQLQuery(sql).addEntity(Shop.class);
         //从第几条记录开始   页数从0开始  减1

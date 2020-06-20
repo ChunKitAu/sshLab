@@ -45,7 +45,9 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
     @Override
     public void update(User user) {
         Session s = getSessionFactory().openSession();
+        s.beginTransaction();
         s.update(user);
+        s.getTransaction().commit();
         s.close();
     }
 
