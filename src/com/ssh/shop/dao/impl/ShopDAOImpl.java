@@ -22,9 +22,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
     @Override
     public Integer save(Shop shop) {
         Session s = getSessionFactory().openSession();
-        s.beginTransaction();
         Integer id = (Integer) s.save(shop);
-        s.getTransaction().commit();
         s.close();
         return id;
     }
@@ -43,7 +41,6 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
     @Override
     public Integer deleteByShopId(Integer shopId) {
         Session s = getSessionFactory().openSession();
-        s.beginTransaction();
         Shop shop = (Shop) s.get(Shop.class, shopId);
         shop.setDeleted(true);
         //删除失败
@@ -51,7 +48,6 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
             return 0;
 
         s.update(shop);
-        s.getTransaction().commit();
         s.close();
         return 1;
     }
@@ -59,9 +55,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
     @Override
     public void update(Shop shop) {
         Session s = getSessionFactory().openSession();
-        s.beginTransaction();
         s.update(shop);
-        s.getTransaction().commit();
         s.close();
     }
 

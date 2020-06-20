@@ -22,9 +22,8 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
     @Override
     public Integer save(User user) {
         Session s = getSessionFactory().openSession();
-        s.beginTransaction();
         Integer id = (Integer) s.save(user);
-        s.getTransaction().commit();
+        s.close();
         return id;
     }
 
@@ -33,24 +32,21 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
     @Override
     public Integer deleteByUserId(Integer userId) {
         Session s = getSessionFactory().openSession();
-        s.beginTransaction();
         User user = (User)s.get(User.class,userId);
         //删除失败
         if(user == null)
             return 0;
 
         s.delete(user);
-        s.getTransaction().commit();
-
+        s.close();
         return 1;
     }
 
     @Override
     public void update(User user) {
         Session s = getSessionFactory().openSession();
-        s.beginTransaction();
         s.update(user);
-        s.getTransaction().commit();
+        s.close();
     }
 
     @Override
@@ -76,6 +72,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
         Query query = s.createQuery(hql);
         query.setParameter(0,userId);
         List<User> users = (List<User>) query.list();
+        s.close();
         //查询id只会返回一条数据
         if (users.size() != 0){
             return users.get(0);
@@ -90,6 +87,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
         query.setParameter(0,user.getAccountName());
         query.setParameter(1,user.getPassword());
         List<User> users = (List<User>) query.list();
+        s.close();
         //查询id只会返回一条数据
         if (users.size() != 0){
             return users.get(0);
