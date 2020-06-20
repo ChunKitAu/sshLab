@@ -155,23 +155,38 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     @Override
     public Boolean successByTaskId(Integer taskId){
-        selectImpl<Integer> sqlSelect=(String str, Integer Id)->{
+        try{
             Session s = getSessionFactory().openSession();
-            SQLQuery query = s.createSQLQuery(str);
-            query.setParameter(0, Id);
-            return query.list();
-        };
-        if(sqlSelect.select("select id from task where id=? and status=false",taskId).size()==0)
-            return false;
-        Task task=getOneByTaskId(taskId);
-        List<Integer> userIds = sqlSelect.select("select userId from task_user where task_user.taskId=?", taskId);
-        for(Iterator<Integer> it=userIds.iterator();it.hasNext();){
-            User user=userDAO.getOneByUserId(it.next());
-            user.setIntegral(user.getIntegral()+task.getIntegral());
-            userDAO.update(user);
+            s.beginTransaction();
+            selectImpl<Integer> sqlSelect=(String str, Integer Id)->{
+                SQLQuery query = s.createSQLQuery(str);
+                query.setParameter(0, Id);
+                return query.list();
+            };
+            if(sqlSelect.select("select id from task where id=? and status=false",taskId).size()==0)
+                return false;
+            Task task=getOneByTaskId(taskId);
+            task.setStatus(true);
+
+            SQLQuery sql = s.createSQLQuery("UPDATE task SET  `status` = 1 WHERE id = ? ");
+            sql.setParameter(0,task.getId());
+            int i = sql.executeUpdate();
+
+            List<Integer> userIds = sqlSelect.select("select userId from task_user where task_user.taskId=?", taskId);
+
+            SQLQuery sql2 = s.createSQLQuery("UPDATE `user` SET integral = ? WHERE id = ? ");
+            for(Iterator<Integer> it=userIds.iterator();it.hasNext();){
+                User user=userDAO.getOneByUserId(it.next());
+                sql2.setParameter(0,user.getIntegral()+task.getIntegral());
+                sql2.setParameter(1,user.getId());
+                int x = sql2.executeUpdate();
+            }
+            s.getTransaction().commit();
+            s.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        task.setStatus(true);
-        updateByTask(task);
         return true;
     }
 

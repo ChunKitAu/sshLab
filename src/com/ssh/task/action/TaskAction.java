@@ -136,18 +136,24 @@ public class TaskAction extends ActionSupport {
     }
 
     public String seccessByTask(){
-        error.clear();
-        if(check(task.getId(),"任务id")==false){
-            result = CommonResult.validateFail(error);
+        try {
+            error.clear();
+            if(check(task.getId(),"任务id")==false){
+                result = CommonResult.validateFail(error);
+            }
+            if(taskService.checktaskOfUser(task.getId(),loginUser.getId())==false){
+                error.add("任务仅创建者可操作");
+            }
+            if(error.size()!=0){
+                result = CommonResult.validateFail(error);
+                return SUCCESS;
+            }
+            result = taskService.successByTaskId(task.getId());
+        }catch (Exception e){
+            e.printStackTrace();
+            result = CommonResult.fail();
         }
-        if(taskService.checktaskOfUser(task.getId(),loginUser.getId())==false){
-            error.add("任务仅创建者可操作");
-        }
-        if(error.size()!=0){
-            result = CommonResult.validateFail(error);
-            return SUCCESS;
-        }
-        result = taskService.successByTaskId(task.getId());
+
         return SUCCESS;
     }
 
