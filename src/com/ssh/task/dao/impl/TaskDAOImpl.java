@@ -47,13 +47,11 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         tasks = (List<Task>)query.list();
         s.close();
         //保存获取的分页记录
-        pageBean.setData(tasks);
-        for(Iterator<Task> it=tasks.iterator();    it.hasNext();    )    {
-            Task task=it.next();
-            System.out.println(task.toString());
-            System.out.println(task);
-            System.out.println("===============");
+        tasks=change(tasks);
+        for(Task t:tasks){
+            System.out.println(t);
         }
+        pageBean.setData(tasks);
         return Deduplication(pageBean, userId);
     }
 
@@ -70,6 +68,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
             tasks.add(getOneByTaskId(it.next()));
         }
         s.close();
+        tasks=change(tasks);
         pageBean.setData(tasks);
         return pageBean;
 
@@ -79,10 +78,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     @Override
     public Integer save(Task task){
         Session s = getSessionFactory().openSession();
-        s.beginTransaction();
-        System.out.println(task);
         Integer id = (Integer) s.save(task);
-        s.getTransaction().commit();
         s.close();
         return id;
 
@@ -95,6 +91,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         SQLQuery query = s.createSQLQuery(sql);
         query.setParameter(0, taskId);
         query.setParameter(1, userId);
+        s.close();
         return query.executeUpdate();
     }
 
@@ -114,7 +111,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
         s.delete(task);
         s.getTransaction().commit();
-
+        s.close();
         return true;
     }
 
@@ -125,6 +122,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         SQLQuery query = s.createSQLQuery(sql);
         query.setParameter(0, taskId);
         query.setParameter(1, userId);
+        s.close();
         return query.executeUpdate();
     }
 
@@ -134,8 +132,8 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         Session s = getSessionFactory().openSession();
         s.beginTransaction();
         s.update(task);
-
         s.getTransaction().commit();
+        s.close();
     }
 
     @Override
@@ -205,6 +203,8 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         Query query = s.createQuery(hql);
         query.setParameter(0,Id);
         List<Task> tasks = (List<Task>) query.list();
+        tasks=change(tasks);
+        s.close();
         //查询id只会返回一条数据
         if (tasks.size() != 0){
             return tasks.get(0);
@@ -222,13 +222,11 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         query.setFirstResult((pageBean.getCurrPage() - 1) * pageBean.getPageSize());
         query.setMaxResults(pageBean.getPageSize());
         tasks = (List<Task>)query.list();
+        tasks=change(tasks);
         s.close();
         //保存获取的分页记录
         pageBean.setData(tasks);
-        if(userId==null)
-            return pageBean;
-        else
-            return Deduplication(pageBean, userId);
+        return Deduplication(pageBean, userId);
     }
     @Override
     public Integer getCountLike(String str){
@@ -269,12 +267,19 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         Query query = s.createQuery(hql);
         query.setParameter(0,userId);
         List<Task> tasks = (List<Task>)query.list();
+        tasks=change(tasks);
         pageBean.setData(tasks);
         pageBean.setTotal(tasks.size());
         s.close();
         return pageBean;
     }
 
+    public List<Task> change(List<Task> tasks){
+        for(Task task:tasks){
+            task.setType_id(task.getType_id()-1);
+        }
+        return tasks;
+    }
     /**
      * 更新积分
      * @param userId
