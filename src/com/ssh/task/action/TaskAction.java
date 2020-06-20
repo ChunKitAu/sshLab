@@ -78,7 +78,7 @@ public class TaskAction extends ActionSupport {
         if(task.getStart_time().after(task.getEnd_time())){
             error.add("任务开始时间不能晚于结束时间");
         }
-
+        task.setType_id(task.getType_id()+1);
         task.setCreate_time(now);
         task.setType_id(task.getType_id());
         task.setCreate_user(loginUser.getId());
@@ -189,6 +189,7 @@ public class TaskAction extends ActionSupport {
             return SUCCESS;
         }
 
+        task.setType_id(task.getType_id()+1);
         Date date=new Date();
         Timestamp now = new Timestamp(date.getTime());
         task.setCreate_time(now);
@@ -219,6 +220,7 @@ public class TaskAction extends ActionSupport {
             result = CommonResult.validateFail(error);
             return SUCCESS;
         }
+        task.setType_id(task.getType_id()+1);
         System.out.println("获取时任务的id"+task.getType_id());
         result =  taskService.getTask(loginUser.getId(),currentPage ,pageSize,task.getType_id());
         return SUCCESS;
