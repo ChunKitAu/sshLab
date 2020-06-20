@@ -90,11 +90,11 @@ public class Task {
     }
 
     public Integer getType_id() {
-        return type_id;
+        return type_id-1;
     }
 
     public void setType_id(Integer type_id) {
-        this.type_id = type_id;
+        this.type_id = type_id+1;
     }
 
     public String getTitle() {
