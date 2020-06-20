@@ -34,7 +34,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     //查询任务
     @Override
     public PageBean<Task> getAll(Integer userId,PageBean<Task> pageBean , Integer typeId) {
-        String hql = "from Task where start_time > ? and end_time > ? and type_id=?";
+        String hql = "from Task where start_time < ? and end_time > ? and type_id=?";
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
@@ -84,7 +84,6 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         Integer id = (Integer) s.save(task);
         s.getTransaction().commit();
         s.close();
-        System.out.println("id为："+id);
         return id;
 
     }
@@ -141,7 +140,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
 
     @Override
     public Integer getCount(Integer typeId) {
-        String hql = "from Task where start_time > ? and end_time > ? and type_id=?";
+        String hql = "from Task where start_time < ? and end_time > ? and type_id=?";
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);

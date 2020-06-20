@@ -66,7 +66,6 @@ public class TaskAction extends ActionSupport {
         Date date=new Date();
         Timestamp now = new Timestamp(date.getTime());
         check(task.getType_id(),"任务类别");
-//        System.out.println("Integer赋值于String:"+task.getType_id());
         check(task.getTitle(),"任务名称");
         check(task.getContent(),"任务内容");
         check(task.getImg(),"任务图片");
@@ -81,15 +80,13 @@ public class TaskAction extends ActionSupport {
         }
 
         task.setCreate_time(now);
-        //前端传的id从0 开始
-        task.setType_id(task.getType_id() + 1);
+        task.setType_id(task.getType_id());
         task.setCreate_user(loginUser.getId());
         //表单验证失败
         if(error.size()!=0){
             result = CommonResult.validateFail(error);
             return SUCCESS;
         }
-        System.out.println(task);
         result = CommonResult.success(task);
         result = taskService.save(task);
         return  SUCCESS;
@@ -222,6 +219,7 @@ public class TaskAction extends ActionSupport {
             result = CommonResult.validateFail(error);
             return SUCCESS;
         }
+        System.out.println("获取时任务的id"+task.getType_id());
         result =  taskService.getTask(loginUser.getId(),currentPage ,pageSize,task.getType_id());
         return SUCCESS;
     }
