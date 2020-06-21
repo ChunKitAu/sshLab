@@ -29,18 +29,21 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
 
     @Override
     public Integer saveUser_Shop(Integer shopId, Integer userId) {
-        String sql = "Insert into shop_user(shopId,userId) value (?,?)";
+        String sql = "Insert into shop_user(id,shopId,userId) value (?,?,?)";
         Session s = getSessionFactory().openSession();
         SQLQuery query = s.createSQLQuery(sql);
-        query.setParameter(0, shopId);
-        query.setParameter(1, userId);
+        query.setParameter(0,null);
+        query.setParameter(1, shopId);
+        query.setParameter(2, userId);
+        int i = query.executeUpdate();
         s.close();
-        return query.executeUpdate();
+        return i;
     }
 
     @Override
     public Integer deleteByShopId(Integer shopId) {
         Session s = getSessionFactory().openSession();
+        s.beginTransaction();
         Shop shop = (Shop) s.get(Shop.class, shopId);
         shop.setIsDeleted(true);
         //删除失败
@@ -48,6 +51,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
             return 0;
 
         s.update(shop);
+        s.getTransaction().commit();
         s.close();
         return 1;
     }

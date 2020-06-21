@@ -46,6 +46,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public CommonResult save(Shop shop) {
+        shop.setIsDeleted(false);
         Integer save = shopDAO.save(shop);
         if(save > 0)
             return CommonResult.success();
