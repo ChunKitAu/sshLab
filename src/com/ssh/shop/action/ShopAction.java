@@ -91,7 +91,8 @@ public class ShopAction extends ActionSupport {
             error.add("名称不能为空");
         if(shop.getIntegral() == null)
             error.add("所需积分不能为空");
-
+        if(shop.getIsDeleted() == null)
+            error.add("是否删除不能为空");
         //表单验证失败
         if(error.size()!=0){
             result = CommonResult.validateFail(error);

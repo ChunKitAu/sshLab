@@ -42,7 +42,7 @@ public class ShopDAOImpl extends BaseDAO implements ShopDAO {
     public Integer deleteByShopId(Integer shopId) {
         Session s = getSessionFactory().openSession();
         Shop shop = (Shop) s.get(Shop.class, shopId);
-        shop.setDeleted(true);
+        shop.setIsDeleted(true);
         //删除失败
         if (shop == null)
             return 0;
