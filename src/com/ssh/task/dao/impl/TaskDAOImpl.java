@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import com.ssh.task.dao.*;
 import com.ssh.task.domain.*;
 import org.springframework.stereotype.Component;
@@ -35,7 +39,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
     //查询任务
     @Override
     public PageBean<Task> getAll(Integer userId,PageBean<Task> pageBean , Integer typeId) {
-        String hql = "from Task where start_time < ? and end_time > ? and type_id=? order by end_time ";
+        String hql = "from Task where start_time < ? and end_time > ? and type_id = ?  order by end_time  ";
         List<Task> tasks;
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
@@ -48,11 +52,11 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         tasks = (List<Task>)query.list();
         s.close();
         //保存获取的分页记录
-        tasks=change(tasks);
-        for(Task t:tasks){
-            System.out.println(t);
-        }
-        pageBean.setData(tasks);
+        List<Task> collect = tasks.stream()
+                .filter(e -> e.getStatus() == false)
+                .collect(Collectors.toList());
+        collect=change(collect);
+        pageBean.setData(collect);
         return Deduplication(pageBean, userId);
     }
 
@@ -280,7 +284,7 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
      */
     @Override
     public PageBean<Task> getTaskByAuthor(PageBean<Task> pageBean,Integer userId){
-        String hql = "from Task where create_user = ?";
+        String hql = "from Task where create_user = ? order by id desc";
         Session s = getSessionFactory().openSession();
         Query query = s.createQuery(hql);
         query.setParameter(0,userId);
