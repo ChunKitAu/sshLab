@@ -75,12 +75,12 @@ public class TaskAction extends ActionSupport {
         check(task.getPhone(),"联系方式");
         check(task.getIntegral(),"任务积分");
         check(loginUser.getId(),"登陆信息");
+        System.out.println(task.getStart_time().after(task.getEnd_time()));
         if(task.getStart_time().after(task.getEnd_time())){
             error.add("任务开始时间不能晚于结束时间");
         }
         task.setType_id(task.getType_id()+1);
         task.setCreate_time(now);
-        task.setType_id(task.getType_id());
         task.setCreate_user(loginUser.getId());
         //表单验证失败
         if(error.size()!=0){

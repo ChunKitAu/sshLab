@@ -302,22 +302,4 @@ public class TaskDAOImpl extends BaseDAO implements TaskDAO{
         }
         return tasks;
     }
-    /**
-     * 更新积分
-     * @param userId
-     * @param rs
-     */
-    public void spendingIntegral(Integer userId,int rs){
-        User user = userDAO.getOneByUserId(userId);
-        user.setIntegral(rs);
-        userDAO.update(user);
-    }
-
-    /**
-     * 获取积分
-     * @param userId
-     */
-    public Integer GetIntegral(Integer userId){
-        return userDAO.getOneByUserId(userId).getIntegral();
-    }
 }

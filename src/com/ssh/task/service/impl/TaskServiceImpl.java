@@ -150,19 +150,4 @@ public class TaskServiceImpl  implements TaskService {
         return CommonResult.success(pageBean);
     }
 
-    @Override
-    public void spendingIntegral(Integer userId,int rs){
-        taskDAO.spendingIntegral(userId,rs);
-    }
-
-    @Override
-    public Integer GetIntegral(Integer userId){
-        return taskDAO.GetIntegral(userId);
-    }
-
-    @Override
-    public Integer getSpendingIntegral(Integer taskId){
-        Task task = taskDAO.getOneByTaskId(taskId);
-        return task.getIntegral()*task.getNumber();
-    }
 }

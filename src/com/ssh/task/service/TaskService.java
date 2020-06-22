@@ -61,9 +61,4 @@ public interface TaskService {
      */
     CommonResult getTaskByAuthor(Integer currentPage, Integer pageSize,Integer  userId);
 
-    void spendingIntegral(Integer userId,int rs);
-
-    Integer GetIntegral(Integer userId);
-
-    Integer getSpendingIntegral(Integer taskId);
 }
